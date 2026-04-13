@@ -369,6 +369,7 @@ int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE, LPTSTR, int nCmdShow )
 			// Successfully created main window
 			Menu systemMenu;
 			ArgumentList argumentList;
+			LPCTSTR lpszColumnTitles [] = LIST_VIEW_WINDOW_COLUMN_TITLES;
 
 			// Get system menu
 			systemMenu = mainWindow.GetSystemMenu( FALSE );
@@ -379,6 +380,10 @@ int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE, LPTSTR, int nCmdShow )
 			// Add about item to system menu
 			systemMenu.InsertItem( MENU_CLASS_SYSTEM_MENU_ABOUT_ITEM_POSITION, MENU_CLASS_SYSTEM_MENU_ABOUT_ITEM_TEXT, IDM_HELP_ABOUT );
 
+			// Add columns to list view window
+			g_listViewWindow.AddColumn( lpszColumnTitles[ LIST_VIEW_WINDOW_COLUMN_1_ID ] );
+			g_listViewWindow.AddColumn( lpszColumnTitles[ LIST_VIEW_WINDOW_COLUMN_2_ID ] );
+
 			// Get argument list
 			if( argumentList.Get() )
 			{
@@ -388,6 +393,9 @@ int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE, LPTSTR, int nCmdShow )
 				argumentList.ProcessArguments( &ArgumentFunction );
 
 			} // End of successfully got argument list
+
+			// Auto-size all list view window columns
+			g_listViewWindow.AutoSizeAllColumns();
 
 			// Show main window
 			mainWindow.Show( nCmdShow );
