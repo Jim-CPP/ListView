@@ -26,8 +26,13 @@ BOOL ListViewWindowDoubleClickFunction( LPCTSTR lpszSelectedItemText )
 
 BOOL ArgumentFunction( LPCTSTR lpszArgument )
 {
+	int nWhichItem;
+
 	// Add argument to list view window
-	//g_listViewWindow.AddString( lpszArgument );
+	nWhichItem = g_listViewWindow.AddItem( lpszArgument );
+
+	// Set column 2 text
+	g_listViewWindow.SetItemText( nWhichItem, LIST_VIEW_WINDOW_COLUMN_2_ID, "ArgumentFunction" );
 
 	return TRUE;
 
@@ -36,7 +41,7 @@ BOOL ArgumentFunction( LPCTSTR lpszArgument )
 BOOL DropFunction( LPCTSTR lpszFilePath )
 {
 	// Add file to list view window
-	//g_listViewWindow.AddString( lpszFilePath );
+	g_listViewWindow.AddItem( lpszFilePath );
 
 	return TRUE;
 
