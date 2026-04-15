@@ -222,7 +222,7 @@ LRESULT CALLBACK MainWindowProcedure( HWND hWndMain, UINT uMessage, WPARAM wPara
 						// Command message is from list view window
 
 						// Handle command message from list view window
-						lr = g_listViewWindow.HandleCommandMessage( hWndMain, wParam, lParam, &ListViewWindowSelectionChangeFunction, &ListViewWindowDoubleClickFunction );
+						lr = g_listViewWindow.HandleCommandMessage( hWndMain, wParam, lParam );
 
 					} // End of command message is from list view window
 					else
@@ -289,10 +289,23 @@ LRESULT CALLBACK MainWindowProcedure( HWND hWndMain, UINT uMessage, WPARAM wPara
 			// Get notify message handler
 			lpNmHdr = ( LPNMHDR )lParam;
 
-			// Source window is lpNmHdr->hwndFrom
+			// See if notify message is from list view window
+			if( lpNmHdr->hwndFrom == g_listViewWindow )
+			{
+				// Notify message is from list view window
 
-			// Call default procedure
-			lr = DefWindowProc( hWndMain, uMessage, wParam, lParam );
+				// Handle notify message from list view window
+				lr = g_listViewWindow.HandleNotifyMessage( hWndMain, wParam, lParam, &ListViewWindowSelectionChangeFunction, &ListViewWindowDoubleClickFunction );
+
+			} // End of notify message is from list view window
+			else
+			{
+				// Notify message is not from list view window
+
+				// Call default procedure
+				lr = DefWindowProc( hWndMain, uMessage, wParam, lParam );
+
+			} // End of notify message is not from list view window
 
 			// Break out of switch
 			break;
