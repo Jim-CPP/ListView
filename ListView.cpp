@@ -8,6 +8,39 @@
 static ListViewWindow g_listViewWindow;
 static StatusBarWindow g_statusBarWindow;
 
+int CALLBACK ListViewWindowCompare( LPARAM lParam1, LPARAM lParam2, LPARAM lParamSort )
+{
+	int nResult = 0;
+
+	// Allocate string memory
+	LPTSTR lpszItem1 = new char[ STRING_LENGTH + sizeof( char ) ];
+	LPTSTR lpszItem2 = new char[ STRING_LENGTH + sizeof( char ) ];
+
+	// Get first item text
+	if( g_listViewWindow.GetItemText( lParam1, lParamSort, lpszItem1 ) )
+	{
+		// Successfully got first item text
+
+		// Get second item text
+		if( g_listViewWindow.GetItemText( lParam2, lParamSort, lpszItem2 ) )
+		{
+			// Successfully got second item text
+
+			// Compare item texts
+			nResult = lstrcmp( lpszItem1, lpszItem2 );
+
+		} // End of successfully got second item text
+
+	} // End of successfully got first item text
+
+	// Free string memory
+	delete [] lpszItem1;
+	delete [] lpszItem2;
+
+	return nResult;
+
+} // End of function ListViewWindowCompare
+
 BOOL ListViewWindowSelectionChangeFunction( LPCTSTR lpszSelectedItemText )
 {
 	// Show selected item text on status bar window
@@ -295,7 +328,7 @@ LRESULT CALLBACK MainWindowProcedure( HWND hWndMain, UINT uMessage, WPARAM wPara
 				// Notify message is from list view window
 
 				// Handle notify message from list view window
-				lr = g_listViewWindow.HandleNotifyMessage( hWndMain, wParam, lParam, &ListViewWindowSelectionChangeFunction, &ListViewWindowDoubleClickFunction );
+				lr = g_listViewWindow.HandleNotifyMessage( hWndMain, wParam, lParam, &ListViewWindowSelectionChangeFunction, &ListViewWindowDoubleClickFunction, &ListViewWindowCompare );
 
 			} // End of notify message is from list view window
 			else
@@ -411,6 +444,16 @@ int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE, LPTSTR, int nCmdShow )
 				argumentList.ProcessArguments( &ArgumentFunction );
 
 			} // End of successfully got argument list
+
+			int nItem;
+			nItem = g_listViewWindow.AddItem( "1234567890" );
+			g_listViewWindow.SetItemText( nItem, LIST_VIEW_WINDOW_COLUMN_2_ID, "99" );
+			nItem = g_listViewWindow.AddItem( "qwertyuiop" );
+			g_listViewWindow.SetItemText( nItem, LIST_VIEW_WINDOW_COLUMN_2_ID, "88" );
+			nItem = g_listViewWindow.AddItem( "asdfghjkl" );
+			g_listViewWindow.SetItemText( nItem, LIST_VIEW_WINDOW_COLUMN_2_ID, "77" );
+			nItem = g_listViewWindow.AddItem( "zxcvbnm" );
+			g_listViewWindow.SetItemText( nItem, LIST_VIEW_WINDOW_COLUMN_2_ID, "66" );
 
 			// Auto-size all list view window columns
 			g_listViewWindow.AutoSizeAllColumns();
