@@ -404,6 +404,9 @@ int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE, LPTSTR, int nCmdShow )
 	Message message;
 
 	WindowClass mainWindowClass;
+	SplashWindow splashWindow;
+
+	splashWindow.Show( hInstance, ABOUT_MESSAGE_TEXT );
 
 	// Initialise main window class
 	mainWindowClass.Init( MAIN_WINDOW_CLASS_NAME, MainWindowProcedure, hInstance );

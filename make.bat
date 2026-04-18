@@ -16,6 +16,7 @@ g++ -mwindows -m64 -static -Wall -Wextra ListView.cpp ^
  ..\Classes\WindowClassClass.cpp ^
  ^
  ..\Classes\ListViewWindowClass.cpp ^
+ ..\Classes\SplashWindowClass.cpp ^
  ..\Classes\StatusBarWindowClass.cpp ^
  ^
  Resource.o -o ListView.exe
